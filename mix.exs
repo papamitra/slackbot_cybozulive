@@ -27,6 +27,10 @@ defmodule SlackbotCybozulive.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:httpoison, "~> 0.9.0"},
+      {:oauther, "~> 1.0.1"},
+      {:slack_bot_plugin, github: "papamitra/slack_bot_plugin"}
+    ]
   end
 end
