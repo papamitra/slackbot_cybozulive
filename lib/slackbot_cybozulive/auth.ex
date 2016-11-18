@@ -16,12 +16,10 @@ defmodule SlackbotCybozulive.Auth do
   end
 
   def auth_verify(self, verifier) do
-    GenServer.cast(self, {:auth_verifire, verifier})
+    GenServer.cast(self, {:auth_verifier, verifier})
   end
 
   def init([parent, consumer_key, consumer_secret]) do
-    Logger.debug "Auth.init #{consumer_key} #{consumer_secret}"
-
     creds = OAuther.credentials(consumer_key: consumer_key, consumer_secret: consumer_secret)
 
     {:ok, %{parent: parent, creds: creds}}
@@ -46,7 +44,7 @@ defmodule SlackbotCybozulive.Auth do
     {:noreply, %{state | creds: creds}}
   end
 
-  def handle_call({:auth_verifier, verifier}, _from, %{parent: parent, creds: creds} = state) do
+  def handle_cast({:auth_verifier, verifier}, %{parent: parent, creds: creds} = state) do
     params = OAuther.sign("get", @step_3, [{"oauth_verifier", verifier}], creds)
 
     {header, _req_params} = OAuther.header(params)
@@ -56,7 +54,7 @@ defmodule SlackbotCybozulive.Auth do
     %{"oauth_token" => oauth_token, "oauth_token_secret" => oauth_token_secret} =
       URI.decode_query(res.body, %{})
 
-    parent |> send({:auth_completed, oauth_token, oauth_token_secret})
+    parent |> send({:auth_completed, self, oauth_token, oauth_token_secret})
 
     {:noreply, state}
   end
