@@ -56,6 +56,9 @@ defmodule SlackbotCybozulive.Auth do
 
     parent |> send({:auth_completed, self, oauth_token, oauth_token_secret})
 
+    Logger.debug "#{__MODULE__} auth_verifier"
+    Logger.debug "#{inspect res}"
+
     {:noreply, state}
   end
 

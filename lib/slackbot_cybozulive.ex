@@ -17,15 +17,7 @@ defmodule SlackbotCybozulive do
   end
 
   def dispatch_command(_sup, :cyb, args, msg) do
-    Logger.debug "cybozulive dispatch_command: #{args}"
-    case Regex.named_captures(~r/ *(?<subcmd>\w+)( +(?<arg>.*))?/, args) do
-      %{"subcmd" => "enable"} ->
-        AuthServer.start_auth(msg["user"])
-      %{"subcmd" => "verifier", "arg" => arg} ->
-        AuthServer.receive_verifier(String.strip(arg), msg["user"])
-      _ ->
-        Logger.debug "Unknown command #{args}"
-    end
+    SlackbotCybozulive.Server.dispatch_command(args, msg)
   end
 
 end
