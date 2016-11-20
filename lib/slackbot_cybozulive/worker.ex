@@ -1,9 +1,9 @@
 defmodule SlackbotCybozulive.Worker do
   use GenServer
 
-  @connection "https://api.cybozulive.com/api/mpAddress/V2"
-
   require Logger
+
+  alias SlackbotCybozulive.Api
 
   def start_link(user, token) do
     GenServer.start_link(__MODULE__, [user, token])
@@ -26,10 +26,6 @@ defmodule SlackbotCybozulive.Worker do
 
   def handle_info(:start, %{creds: creds} = state) do
     Logger.debug "#{__MODULE__} start"
-
-    params = OAuther.sign("get", @connection, [], creds)
-    {header, _req_params} = OAuther.header(params)
-    IO.inspect HTTPoison.get(@connection, [header])
 
     {:noreply, state}
   end
