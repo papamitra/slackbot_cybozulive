@@ -46,6 +46,8 @@ defmodule SlackbotCybozulive.Server do
         subcommand_verifier(arg, msg)
       %{"subcmd" => "disable"} ->
         subcommand_disable(msg, users, tokens)
+      %{"subcmd" => "schedule"} ->
+        subcommand_schedule(msg, users)
       _ ->
         Logger.debug "Unknown command #{args}"
     end
@@ -101,6 +103,11 @@ defmodule SlackbotCybozulive.Server do
       _ ->
         :ok
     end
+  end
+
+  defp subcommand_schedule(msg, users) do
+    [{_user, {child, _, _}}] = users |> :ets.lookup(msg["user"])
+    SlackbotCybozulive.Worker.cmd_schedule(child)
   end
 
 end

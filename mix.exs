@@ -14,7 +14,7 @@ defmodule SlackbotCybozulive.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger, :timex]]
   end
 
   # Dependencies can be Hex packages:
@@ -31,6 +31,8 @@ defmodule SlackbotCybozulive.Mixfile do
       {:httpoison, "~> 0.9.0"},
       {:oauther, "~> 1.0.1"},
       {:slack_bot_plugin, github: "papamitra/slack_bot_plugin"}
+      {:quinn, "~> 1.0"},
+      {:timex, "~> 3.0"},
     ]
   end
 end
