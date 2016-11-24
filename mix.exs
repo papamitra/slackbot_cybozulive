@@ -30,7 +30,7 @@ defmodule SlackbotCybozulive.Mixfile do
     [
       {:httpoison, "~> 0.9.0"},
       {:oauther, "~> 1.0.1"},
-      {:slack_bot_plugin, github: "papamitra/slack_bot_plugin"}
+      {:slack_bot_plugin, github: "papamitra/slack_bot_plugin"},
       {:quinn, "~> 1.0"},
       {:timex, "~> 3.0"},
     ]
